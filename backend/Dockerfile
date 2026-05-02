@@ -22,7 +22,7 @@ RUN tar -xzf /tmp/src.tar.gz -C /var/www/html \
  && mkdir -p var/data var/cache var/log \
  && chown -R www-data:www-data var
 
-COPY fpm-healthcheck.conf /usr/local/etc/php-fpm.d/zz-healthcheck.conf
+COPY fpm-overrides.conf /usr/local/etc/php-fpm.d/zz-overrides.conf
 
 COPY entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
