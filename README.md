@@ -4,6 +4,9 @@ Docker images and a Compose stack for [Strichliste](https://github.com/strichlis
 
 ## Setup
 
+Download the [compose.yaml](https://raw.githubusercontent.com/m-ober/strichliste-docker-compose/refs/heads/main/compose.yaml)
+from this repository.
+
 Create an `.env` file:
 
 ```
