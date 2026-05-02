@@ -13,8 +13,11 @@ if [ ! -f "$DB_FILE" ]; then
     echo "[entrypoint] Creating database schema at $DB_FILE"
     php bin/console doctrine:schema:create --no-interaction
 fi
-php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
-php bin/console cache:clear --no-interaction
+if ! php bin/console doctrine:migrations:up-to-date --no-interaction; then
+    echo "[entrypoint] Applying migrations"
+    php bin/console doctrine:migrations:migrate --no-interaction
+    php bin/console cache:clear --no-interaction
+fi
 
 chown -R www-data:www-data var
 
