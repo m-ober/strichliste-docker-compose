@@ -14,12 +14,23 @@ services:
       - data:/var/www/html/var/data
       # Optional: mount a custom strichliste.yaml to override defaults.
       # - ./strichliste.yaml:/var/www/html/config/strichliste.yaml:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping QUERY_STRING= REQUEST_METHOD=GET
+          cgi-fcgi -bind -connect 127.0.0.1:9000 | grep -q pong
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
 
   frontend:
     image: ghcr.io/m-ober/strichliste-frontend:${FRONTEND_VER:-latest}
     restart: unless-stopped
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     environment:
       TZ: ${TZ:-Europe/Berlin}
     ports:
